@@ -1,0 +1,22 @@
+name: 'Upload release asset composite'
+description: 'Uploade release asset to a target release'
+inputs:
+  github-token:
+    description: 'github token for asset upload'
+    required: true
+  release-url:
+    description: 'url of a target release'
+    required: true
+  asset-name:
+    description: 'name of asset'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        curl --fail -s -S -H "Authorization: token ${{ inputs.github-token }}" \
+        -H "Content-Type: application/octet-stream" \
+        -H "Accept: application/vnd.github.v3+json" \
+        --data-binary @"${{ inputs.asset_name }}" \
+        -X POST "${{ inputs.release-url }}?name=${{ inputs.asset_name }}"
+      shell: bash

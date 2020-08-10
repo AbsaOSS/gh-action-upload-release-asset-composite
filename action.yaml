@@ -13,10 +13,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: |
-        curl --fail -s -S -H "Authorization: token ${{ inputs.github-token }}" \
+    - shell: bash
+      run: |
+        curl -vvv --fail -s -S -H "Authorization: token ${{ inputs.github-token }}" \
         -H "Content-Type: application/octet-stream" \
         -H "Accept: application/vnd.github.v3+json" \
-        --data-binary @"${{ inputs.asset_name }}" \
-        -X POST "${{ inputs.release-url }}?name=${{ inputs.asset_name }}"
-      shell: bash
+        --data-binary @"${{ inputs.asset-name }}" \
+        -X POST "${{ inputs.release-url }}?name=${{ inputs.asset-name }}"
